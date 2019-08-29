@@ -1,5 +1,6 @@
+
 <!-- Top 10 miners -->
-<h3><span tkey="top10miners">Top 10 miners</span></h3>
+<h3>CX <span tkey="top10miners">Top 10 miners</span></h3>
 <div class="card">
     <div id="top10miners" class="table-responsive">
         <table class="table table-striped">
@@ -18,6 +19,26 @@
     </div>
 </div>
 
+<h3>BTCM <span tkey="top10miners">Top 10 miners</span></h3>
+<div class="card">
+    <div id="top10minersMerged" class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col1 sort">#</th>
+                <th class="col2 sort"><span tkey="miner">Miner</span></th>
+                <th class="col3 sort"><span tkey="hashRate">Hash Rate</span></th>
+                <th class="col4 sort"><span tkey="lastShare">Last Share Submitted</span></th>
+                <th class="col5 sort"><span tkey="totalHashes">Total Hashes Submitted</span></th>
+            </tr>
+            </thead>
+            <tbody id="top10minersMerged_rows">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
 <!-- Javascript -->
 <script>
 // Update current page
@@ -32,7 +53,7 @@ function getMinerCells(position, data){
     var hashrate = data.hashrate ? data.hashrate : 0;
     var lastShare = data.lastShare ? data.lastShare : 0;
     var hashes = (data.hashes || 0).toString();
-    
+
     return '<td class="col1" data-sort="' + position + '">' + position + '</td>' +
            '<td class="col2" data-sort="' + miner + '">' + miner + '</td>' +
            '<td class="col3" data-sort="' + hashrate + '">' + getReadableHashRateString(hashrate) + '/sec</td>' +
@@ -60,9 +81,31 @@ function updateTop10() {
     });
 }
 
+function updateTop10Merged() {
+    $("#top10minersMerged_rows").empty();
+
+    var xhrGetTOP = $.ajax({
+        url: apiMerged + '/get_top10miners',
+        data: {
+            time: $('#top10_rows').children().last().data('time')
+        },
+        dataType: 'json',
+        cache: 'false',
+        success: function(data){
+            if (!data) return;
+            for (var i=0; i<data.length; ++i) {
+                $( "#top10minersMerged_rows" ).append('<tr>' + getMinerCells(i+1, data[i]) + '</tr>');
+            }
+        }
+    });
+}
+
+
 // Load initial data
 updateTop10();
+updateTop10Merged();
 
 // Start updates once per minute
 var intervalUpdateTop10 = setInterval(updateTop10, (60*1000));
+var intervalUpdateTop10Merged = setInterval(updateTop10Merged, (60*1000));
 </script>

@@ -1,3 +1,4 @@
+
 /**
  * Common javascript code for cryptonote-nodejs-pool
  * Author: Daniel Vandal
@@ -7,7 +8,7 @@
 /**
  * Layout
  **/
- 
+
 // Collapse menu on load for mobile devices
 $('#menu-content').collapse('hide');
 
@@ -73,10 +74,10 @@ function routePage(loadedCallback) {
 
     $('.hot_link').parent().removeClass('active');
     var $link = $('a.hot_link[href="' + (window.location.hash || '#') + '"]');
-    
+
     $link.parent().addClass('active');
     var page = $link.data('page');
-    
+
     loadTranslations();
 
     xhrPageLoading = $.ajax({
@@ -96,7 +97,7 @@ function routePage(loadedCallback) {
 /**
  * Strings
  **/
- 
+
 // Add .update() custom jQuery function to update text content
 $.fn.update = function(txt){
     var el = this[0];
@@ -128,7 +129,7 @@ function updateText(elementId, text){
 
 // Convert float to string
 function floatToString(float) {
-    return float.toFixed(6).replace(/\.0+$|0+$/, '');
+    return float.toFixed(6).replace(/[0\.]+$/, '');
 }
 
 // Format number
@@ -199,24 +200,25 @@ function getReadableTime(seconds){
 
 // Get readable hashrate
 function getReadableHashRateString(hashrate){
-    if (!hashrate) hashrate = 0;
-
     var i = 0;
-    var byteUnits = [' H', ' kH', ' MH', ' GH', ' TH', ' PH' ];
-    if (hashrate > 0) {
-        while (hashrate > 1000){
-            hashrate = hashrate / 1000;
-            i++;
-        }
+    var byteUnits = [' H', ' KH', ' MH', ' GH', ' TH', ' PH' ];
+    while (hashrate > 1000){
+        hashrate = hashrate / 1000;
+        i++;
     }
-    return parseFloat(hashrate).toFixed(2) + byteUnits[i];
+    return hashrate.toFixed(2) + byteUnits[i];
 }
-    
+
 // Get coin decimal places
 function getCoinDecimalPlaces() {
     if (typeof coinDecimalPlaces != "undefined") return coinDecimalPlaces;
     else if (lastStats.config.coinDecimalPlaces) return lastStats.config.coinDecimalPlaces;
     else lastStats.config.coinUnits.toString().length - 1;
+}
+function getCoinDecimalPlacesMerged() {
+    if (typeof coinDecimalPlacesMerged != "undefined") return coinDecimalPlacesMerged;
+    else if (mergedStats.config.coinDecimalPlaces) return mergedStats.config.coinDecimalPlaces;
+    else mergedStats.config.coinUnits.toString().length - 1;
 }
 
 // Get readable coins
@@ -225,10 +227,15 @@ function getReadableCoins(coins, digits, withoutSymbol){
     var amount = parseFloat((parseInt(coins || 0) / lastStats.config.coinUnits).toFixed(digits || coinDecimalPlaces));
     return amount.toString() + (withoutSymbol ? '' : (' ' + lastStats.config.symbol));
 }
+function getReadableCoinsMerged(coins, digits, withoutSymbol){
+    var coinDecimalPlacesMerged = getCoinDecimalPlacesMerged();
+    var amount = parseFloat((parseInt(coins || 0) / mergedStats.config.coinUnits).toFixed(digits || coinDecimalPlacesMerged));
+    return amount.toString() + (withoutSymbol ? '' : (' ' + mergedStats.config.symbol));
+}
 
 // Format payment link
-function formatPaymentLink(hash){
-    return '<a target="_blank" href="' + getTransactionUrl(hash) + '">' + hash + '</a>';
+function formatPaymentLink(hash, merged){
+    return '<a target="_blank" href="' + getTransactionUrl(hash, merged) + '">' + hash + '</a>';
 }
 
 // Format difficulty
@@ -238,7 +245,25 @@ function formatDifficulty(x) {
 
 // Format luck / current effort
 function formatLuck(difficulty, shares) {
-    var percent = Math.round(shares / difficulty * 100);
+    // Only an approximation to reverse the calculations done in pool.js, because the shares with their respective times are not recorded in redis
+    // Approximation assumes equal pool hashrate for the whole round
+    // Could potentially be replaced by storing the sum of all job.difficulty in the redis db.
+    if (lastStats.config.slushMiningEnabled) {
+        // Uses integral calculus to calculate the average of a dynamic function
+        var accurateShares = 1/lastStats.config.blockTime * (  // 1/blockTime to get the average
+            shares * lastStats.config.weight * (                  // Basically calculates the 'area below the graph' between 0 and blockTime
+                1 - Math.pow(
+                    Math.E,
+                    ((- lastStats.config.blockTime) / lastStats.config.weight)  // blockTime is equal to the highest possible result of (dateNowSeconds - scoreTime)
+                )
+            )
+        );
+    }
+    else {
+        var accurateShares = shares;
+    }
+
+    var percent = Math.round(accurateShares / difficulty * 100);
     if(!percent){
         return '<span class="luckGood">?</span>';
     }
@@ -250,7 +275,7 @@ function formatLuck(difficulty, shares) {
     }
     else{
         return '<span class="luckBad">' + percent + '%</span>';
-    }    
+    }
 }
 
 /**
@@ -265,19 +290,27 @@ function getPoolHost() {
 }
 
 // Return transaction URL
-function getTransactionUrl(id) {
-    return transactionExplorer.replace(new RegExp('{symbol}', 'g'), lastStats.config.symbol.toLowerCase()).replace(new RegExp('{id}', 'g'), id);
+function getTransactionUrl(id, merged) {
+    if (merged && transactionExplorerMerged){
+        return transactionExplorerMerged.replace('{symbol}', mergedStats.config.symbol.toLowerCase()).replace('{id}', id);
+    } else {
+        return transactionExplorer.replace('{symbol}', lastStats.config.symbol.toLowerCase()).replace('{id}', id);
+    }
 }
 
 // Return blockchain explorer URL
-function getBlockchainUrl(id) {
-    return blockchainExplorer.replace(new RegExp('{symbol}', 'g'), lastStats.config.symbol.toLowerCase()).replace(new RegExp('{id}', 'g'), id);    
+function getBlockchainUrl(id, merged) {
+    if (merged && blockchainExplorerMerged) {
+        return blockchainExplorerMerged.replace('{symbol}', mergedStats.config.symbol.toLowerCase()).replace('{id}', id);
+    } else {
+        return blockchainExplorer.replace('{symbol}', lastStats.config.symbol.toLowerCase()).replace('{id}', id);
+    }
 }
- 
+
 /**
  * Tables
  **/
- 
+
 // Sort table cells
 function sortTable() {
     var table = $(this).parents('table').eq(0),
@@ -319,11 +352,11 @@ if (typeof defaultLang == "undefined") {
 }
 
 var langCode = defaultLang;
-var langData = null; 
+var langData = null;
 
 function getTranslation(key) {
     if (!langData || !langData[key]) return null;
-    return langData[key];    
+    return langData[key];
 }
 
 var translate = function(data) {
@@ -343,7 +376,7 @@ var translate = function(data) {
         var strTr = data[$(this).attr('tvalue')];
         $(this).attr('value', strTr)
     });
-} 
+}
 
 // Get language code from URL
 const $_GET = {};
@@ -352,7 +385,7 @@ for (var i=0; i<args.length; ++i) {
     const tmp = args[i].split(/=/);
     if (tmp[0] != "") {
         $_GET[decodeURIComponent(tmp[0])] = decodeURIComponent(tmp.slice(1).join("").replace("+", " "));
-        var langCode = $_GET['lang'];    
+        var langCode = $_GET['lang'];
     }
 }
 
@@ -363,10 +396,10 @@ function loadTranslations() {
     }
     else if (langs && langs[langCode]) {
         $.getJSON('lang/'+langCode+'.json', translate);
-        $.getScript('lang/timeago/jquery.timeago.'+langCode+'.js');    
+        $.getScript('lang/timeago/jquery.timeago.'+langCode+'.js');
     } else {
         $.getJSON('lang/'+defaultLang+'.json', translate);
-        $.getScript('lang/timeago/jquery.timeago.'+defaultLang+'.js');    
+        $.getScript('lang/timeago/jquery.timeago.'+defaultLang+'.js');
     }
 }
 
@@ -385,7 +418,7 @@ function renderLangSelector() {
 	html += '</select>';
     }
     if (html && numLangs > 1) {
-        $('#langSelector').html(html);	
+        $('#langSelector').html(html);
         $('#newLang').each(function(){
             $(this).change(function() {
                 var newLang = $(this).val();
@@ -394,7 +427,7 @@ function renderLangSelector() {
                 window.location.href = url;
             });
         });
-    }	
+    }
 
     // Mobile
     var html = '';
@@ -409,7 +442,7 @@ function renderLangSelector() {
 	html += '</select>';
     }
     if (html && numLangs > 1) {
-        $('#mLangSelector').html(html);	
+        $('#mLangSelector').html(html);
         $('#mNewLang').each(function(){
             $(this).change(function() {
                 var newLang = $(this).val();
@@ -418,5 +451,5 @@ function renderLangSelector() {
                 window.location.href = url;
             });
         });
-    }	
+    }
 }

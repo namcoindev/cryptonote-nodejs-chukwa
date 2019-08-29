@@ -1,3 +1,4 @@
+
 <!-- Connection Details -->
 <div class="row">
     <div class="col-sm-6">
@@ -12,18 +13,22 @@
         <h4 class="push-up-15"><span tkey="username">Username<span></h4>
         <div class="card padding-l-10 padding-r-10">
             <div class="stats">
-                <div><i class="fa fa-key"></i> <span tkey="usernameDesc">This is your wallet address</span></div>
+                <div><i class="fa fa-key"></i> <span tkey="">This is your BitcoinMono (BTCM) wallet address</span></div>
+                If you are using static difficulty please adjust it accordingly.
                 <div id="paymentId"><i class="fa fa-exchange"></i> <span tkey="paymentId">Exchange Payment ID</span>: <span><u tkey="address">address</u><span id="paymentIdSeparator">.</span><u tkey="addrPaymentId">paymentID</u></span></div>
                 <div id="fixedDiff"><i class="fa fa-wrench"></i> <span tkey="fixedDiff">Difficulty locking</span>: <span><u tkey="address">address</u><span id="fixedDiffSeparator">+</span><u tkey="addrDiff">diff</u></span></div>
             </div>
         </div>
-	    
+
         <h4 class="push-up-15"><span tkey="password">Password</span></h4>
         <div class="card padding-l-10 padding-r-10">
-            <div class="stats">
-                <div><i class="fa fa-server"></i> <span tkey="passwordDesc">This is your worker name</span></div>
-            </div>
+                <div class="stats">
+                    <div><i class="fa fa-key"></i> <span tkey="usernameDesc2">Use your <strong>Catalyst (CX) wallet address</strong> as password for merged mining.<!--This is your worker name--></span></div>
+                    <div id="paymentId"><i class="fa fa-exchange"></i> <span tkey="paymentId">Exchange Payment ID</span>: <span><u tkey="address">address</u><span id="paymentIdSeparator">+</span><u tkey="addrPaymentId">paymentID</u></span></div>
+                    <div><i class="fa fa-server"></i> <span tkey="fixedDiff2">Worker Name</span>: <span><u tkey="address">address</u><span id="fixedDiffSeparator2">@</span><u tkey="addrDiff2">workerName</u></span></div>
+                </div>
         </div>
+
     </div>
 
     <!-- Mining ports -->
@@ -50,7 +55,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 
 <!-- Mining Applications and Configuration Generator -->
@@ -81,7 +86,7 @@
         <div class="col-sm-6 col-xs-12">
             <div class="input-group push-down-5">
                 <span class="input-group-addon"><i class="fa fa-server"></i></span>
-                <input class="form-control" id="gWorkerName" tplaceholder="workerNameField" type="text" placeholder="Worker_Name" /> 
+                <input class="form-control" id="gWorkerName" tplaceholder="workerNameField" type="text" placeholder="Worker_Name" />
             </div>
         </div>
         <div class="col-sm-6 col-xs-12">
@@ -110,37 +115,9 @@
             </tr>
             </thead>
             <tbody id="miningApps_rows">
-	    
-	    <!-- XMR Stak -->
-            <tr class="appInfo">
-                <td class="miningAppTitle">XMR Stak</td>
-                <td>CPU & GPU (AMD/NVIDIA)</td>
-                <td>Easy to use CPU + GPU Mining App</td>
-                <td><a class="btn btn-success" target="_blank" href="https://github.com/fireice-uk/xmr-stak/releases/latest"><span tkey="download">Download</span></a></td>
-                <td><a class="btn btn-default" role="button" data-toggle="collapse" href="#xmrstak" aria-expanded="true" aria-controls="collapseExample"><span tkey="showConfig">See more</span></a></td>
-            </tr>
-            <tr class="appConfig">
-                <td colspan="5">
-                    <div class="collapse" id="xmrstak">
-		
-<pre><code>"pool_list": [
-    {
-        "pool_address": "<span class="exampleHost">POOL_HOST</span>:<span class="examplePort">PORT</span>",
-        "wallet_address": "<span class="exampleLogin">YOUR_WALLET_ADDRESS</span>",
-        "rig_id": "<span class="examplePassword">YOUR_WORKER_NAME</span>",
-        "pool_password": "x",
-        "use_nicehash": false,
-        "use_tls": false, /* Set to true if you are using an SSL port */
-        "tls_fingerprint": "",
-        "pool_weight": 1
-    },
-],
-"currency": "<span id="xmrstakAlgo"></span>",</code></pre>
 
-                    </div>
-                </td>
-            </tr>
-	    
+
+
 	    <!-- XMRig -->
             <tr class="appInfo">
                 <td class="miningAppTitle">XMRig</td>
@@ -152,102 +129,23 @@
             <tr class="appConfig">
                 <td colspan="5">
                     <div class="collapse" id="xmrig">
-		
+
 <pre><code>"pools": [
     {
+        "algo": "argon2/chukwa",
         "url": "<span class="exampleHost">POOL_HOST</span>:<span class="examplePort">PORT</span>",
-        "user": "<span class="exampleLogin">YOUR_WALLET_ADDRESS</span>",
-        "pass": "<span class="examplePassword">YOUR_WORKER_NAME</span>",
-        "keepalive": true,
-        "nicehash": false,
-        "variant": 1
-    }
-],</code></pre>
-
-                    </div>
-                </td>
-            </tr>
-
-	    <!-- XMRig-AMD -->
-            <tr class="appInfo">
-                <td class="miningAppTitle">XMRig-AMD</td>
-                <td>OpenCL (AMD)</td>
-                <td>XMRIG version for AMD GPU</td>
-                <td><a class="btn btn-success" target="_blank" href="https://github.com/xmrig/xmrig-amd/releases/latest"><span tkey="download">Download</span></a></td>
-                <td><a class="btn btn-default" role="button" data-toggle="collapse" href="#xmrig-amd" aria-expanded="true" aria-controls="collapseExample"><span tkey="showConfig">See more</span></a></td>
-            </tr>
-            <tr class="appConfig">
-                <td colspan="5">
-                    <div class="collapse" id="xmrig-amd">
-		
-<pre><code>"pools": [
-    {
-        "url": "<span class="exampleHost">POOL_HOST</span>:<span class="examplePort">PORT</span>",
-        "user": "<span class="exampleLogin">YOUR_WALLET_ADDRESS</span>",
-        "pass": "<span class="examplePassword">YOUR_WORKER_NAME</span>"
-        "keepalive": true,
-        "nicehash": false,
-        "variant": 1
-    }
-],</code></pre>
-
-                    </div>
-                </td>
-            </tr>
-
-	    <!-- XMRig-NVIDIA -->
-            <tr class="appInfo">
-                <td class="miningAppTitle">XMRig-NVIDIA</td>
-                <td>Cuda (Nvidia)</td>
-                <td>XMRIG version for Nvidia GPU</td>
-                <td><a class="btn btn-success" target="_blank" href="https://github.com/xmrig/xmrig-nvidia/releases/latest"><span tkey="download">Download</span></a></td>
-                <td><a class="btn btn-default" role="button" data-toggle="collapse" href="#xmrig-nvidia" aria-expanded="true" aria-controls="collapseExample"><span tkey="showConfig">See more</span></a></td>
-            </tr>
-            <tr class="appConfig">
-                <td colspan="5">
-                    <div class="collapse" id="xmrig-nvidia">
-		
-<pre><code>"pools": [
-    {
-        "url": "<span class="exampleHost">POOL_HOST</span>:<span class="examplePort">PORT</span>",
-        "user": "<span class="exampleLogin">YOUR_WALLET_ADDRESS</span>",
-        "pass": "<span class="examplePassword">YOUR_WORKER_NAME</span>"
-        "keepalive": true,
-        "nicehash": false,
-        "variant": 1
-    }
-],</code></pre>
-
-                    </div>
-                </td>
-            </tr>
-
-	    <!-- XMRigCC -->
-            <tr class="appInfo">
-                <td class="miningAppTitle">XMRigCC</td>
-                <td>CPU</td>
-                <td>XMRIG Fork, optimized with remote control</td>
-                <td><a class="btn btn-success" target="_blank" href="https://github.com/Bendr0id/xmrigCC/releases/latest"><span tkey="download">Download</span></a></td>
-                <td><a class="btn btn-default" role="button" data-toggle="collapse" href="#xmrig-cc" aria-expanded="true" aria-controls="collapseExample"><span tkey="showConfig">See more</span></a></td>
-            </tr>
-            <tr class="appConfig">
-                <td colspan="5">
-                    <div class="collapse" id="xmrig-cc">
-		
-<pre><code>"pools": [
-    {
-        "url": "<span class="exampleHost">POOL_HOST</span>:<span class="examplePort">PORT</span>",
-        "user": "<span class="exampleLogin">YOUR_WALLET_ADDRESS</span>",
-        "pass": "<span class="examplePassword">YOUR_WORKER_NAME</span>",
+        "user": "<span class="exampleLogin">YOUR_BTCM_ADDRESS</span>",
+        "pass": "<span class="examplePassword">YOUR_CX_WALLET_ADDRESS</span>"
         "keepalive": true,
         "nicehash": false
-    },
+    }
 ],</code></pre>
 
                     </div>
                 </td>
             </tr>
-	    
+
+
             </tbody>
         </table>
     </div>
@@ -324,12 +222,9 @@ currentPage = {
             } else if (cnVariant === 3) {
                 algorithm = 'Cryptonight (Stellite v7)';
                 xmrstakAlgo = 'cryptonight_v7_stellite';
-	    } else if (cnVariant === 4) {
-                algorithm = 'Cryptonight Fast (Masari)';
-                xmrstakAlgo = 'cryptonight_masari';
             } else {
-                algorithm = 'Cryptonight (Original)';
-                xmrstakAlgo = 'cryptonight';
+                algorithm = 'argon2/chukwa';
+                xmrstakAlgo = 'argon2/chukwa';
             }
         }
 
@@ -369,7 +264,7 @@ $('#generateConf').click(function() {
     var address = $('#gAddress').val().replace(/\s+/g, '').trim();
     var paymentID = $('#gPaymentID').val().replace(/\s+/g, '').trim();
     var difficulty = parseInt($('#gDifficulty').val().replace(/\s+/g, '').trim());
-    
+
     var login = address ? address : 'YOUR_WALLET_ADDRESS';
     if (paymentID) login = login + lastStats.config.paymentIdSeparator + paymentID;
     if (difficulty) login = login + lastStats.config.fixedDiffSeparator + difficulty;
@@ -379,6 +274,6 @@ $('#generateConf').click(function() {
     var workerName = $('#gWorkerName').val().replace(/\s+/g, '').trim();
 
     var password = workerName ? workerName : 'x';
-    updateTextClasses('examplePassword', password);    
+    updateTextClasses('examplePassword', password);
 });
 </script>

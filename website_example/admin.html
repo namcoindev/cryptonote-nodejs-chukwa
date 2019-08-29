@@ -20,28 +20,48 @@
     <!-- Navigation -->
     <div class="nav-side-menu">
         <div class="brand"><a href="/">Admin Panel</a></div>
-        <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>  
+        <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
         <div class="menu-list">
             <ul id="menu-content" class="menu-content collapsed out">
-        
+
                 <li><a class="hot_link" data-page="admin/statistics.html" href="#">
-                    <i class="fa fa-bar-chart-o"></i> Statistics
+                    <i class="fa fa-bar-chart-o"></i> Statistics CX
                 </a></li>
 
+                <li><a class="hot_link" data-page="admin/statistics2.html" href="#statistics2">
+                    <i class="fa fa-bar-chart-o"></i> Statistics BTCM
+                </a></li>
+
+
                 <li><a class="hot_link" data-page="admin/monitoring.html" href="#monitoring">
-                    <i class="fa fa-eye"></i> Monitoring
+                    <i class="fa fa-eye"></i> Monitoring CX
                 </a></li>
-        
+                <li><a class="hot_link" data-page="admin/monitoring2.html" href="#monitoring2">
+                    <i class="fa fa-eye"></i> Monitoring BTCM
+                </a></li>
+
                 <li><a class="hot_link" data-page="admin/userslist.html" href="#users_list">
-                    <i class="fa fa-users"></i> Users List
+                    <i class="fa fa-users"></i> Users CX
                 </a></li>
-		
+
+                <li><a class="hot_link" data-page="admin/userslist2.html" href="#users_list2">
+                    <i class="fa fa-users"></i> Users BTCM
+                </a></li>
+
                 <li><a class="hot_link" data-page="admin/ports.html" href="#ports">
-                    <i class="fa fa-link"></i> Ports Usage
+                    <i class="fa fa-link"></i> Ports CX
                 </a></li>
-		
+
+                <li><a class="hot_link" data-page="admin/ports2.html" href="#ports2">
+                    <i class="fa fa-link"></i> Ports BTCM
+                </a></li>
+
                 <li><a class="hot_link" data-page="admin/tools.html" href="#tools">
                     <i class="fa fa-gears"></i> Tools
+                </a></li>
+
+                <li><a class="hot_link" data-page="admin/userslist.html" href="#userslist">
+                    <i class="fa fa-gears"></i> Users List
                 </a></li>
 
                 <li class="sign-out"><a class="hot_link" href="/">
@@ -57,7 +77,7 @@
         <div id="page"></div>
         <p id="loading" class="text-center"><i class="fa fa-circle-o-notch fa-spin"></i></p>
     </div>
-    
+
 </div>
 
 <!-- Footer -->
@@ -75,11 +95,20 @@
 <script>
 // Fetch pool statistics
 lastStats = {};
+mergedStats = {};
 $(function() {
     $.get(api + '/stats', function(data) {
         lastStats = data;
         $('#poolVersion').html(lastStats.config.version);
         routePage();
+    });
+});
+
+$(function() {
+    $.get(apiMerged + '/stats', function(data) {
+        mergedStats = data;
+        // $('#poolVersion').html(lastStats.config.version);
+        // routePage();
     });
 });
 

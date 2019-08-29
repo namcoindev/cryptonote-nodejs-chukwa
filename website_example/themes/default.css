@@ -1,8 +1,9 @@
+
 @import url(//fonts.googleapis.com/css?family=Roboto+Condensed:400,700);
 @import url(//fonts.googleapis.com/css?family=Roboto:400,300,500,700);
 @import url(//fonts.googleapis.com/css?family=Inconsolata:400,700);
 
-body {  
+body {
   background-color: #f5f5f5;
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
   line-height: 1.428571429;
@@ -281,7 +282,7 @@ footer > div{
 }
 
 /* Top Bar */
-#top-bar { 
+#top-bar {
   background-color: #0274a8;
   line-height: 50px;
   display: block;
@@ -368,7 +369,7 @@ footer > div{
 }
 
 /* Bootstrap Tables */
-.table > thead > tr > td.success, 
+.table > thead > tr > td.success,
 .table > tbody > tr > td.success,
 .table > tfoot > tr > td.success,
 .table > thead > tr > th.success,
@@ -449,7 +450,7 @@ table th.sort:hover{
 .infoBox {
   background-color: #03a9f4;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
-  height: 80px;  
+  height: 80px;
   cursor: default;
   position: relative;
   overflow: hidden;
@@ -514,12 +515,6 @@ table th.sort:hover{
   padding: 15px;
   border-radius: 3px;
   color: #fff;
-  margin-bottom: 30px;
-}
-@media (max-width: 767px){
-  .hashInfo {
-    margin-bottom: 15px;
-  }
 }
 .hashInfo .text {
   font-size: 13px;
@@ -546,40 +541,9 @@ table th.sort:hover{
   font-weight: normal;
 }
 
-/* Slush payment info box */
-.slushInfo {
-  background-color: #014e71;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
-  cursor: default;
-  padding: 15px;
-  border-radius: 3px;
-  color: #fff;
-  margin-bottom: 30px;
-}
-.slushInfo .text {
-  font-size: 13px;
-  color: #fff;
-  text-transform: uppercase;
-}
-@media (max-width: 767px){
-  .slushInfo {
-    margin-bottom: 15px;
-  }
-}
-.slushInfo .content .value {
-  float: left;
-  font-size: 16px;
-  font-weight: 400;
-  color: #fff;
-  padding: 8px 8px 0 0;
-}
-.slushInfo .content .value a {
-    color: #fff;
-}
-
 /* Pool Statistics */
 .stats > div:not(#addressError) {
-  color: #262626; 
+  color: #262626;
   padding: 10px 0px;
 }
 .stats > div:not(#addressError).marketFooter {
@@ -598,36 +562,29 @@ table th.sort:hover{
 }
 
 /* Pool and Worker Charts */
-.poolChart, .marketChart, .userChart {
+.poolChart, .marketChart, .userChart, .userChartMerged {
   display: none;
 }
-.poolChart .chart, .marketChart .chart, .userChart .chart {
-  height: 140px;
+.poolChart .chart, .marketChart .chart {
+  padding: 10px;
 }
-.poolChart, .marketChart {
-  margin-bottom: 30px;
-}
-@media (max-width: 767px){
-  .poolChart, .marketChart {
-    margin-bottom: 15px;
-  }
+.userChart .chart, .userChartMerged .chart {
+  padding: 10px 0;
 }
 .poolChart h4,
 .marketChart h4,
-.userChart h4 {
+.userChart h4,
+.userChartMerged h4 {
   text-align: center;
   font-size: 21px;
-}
-.chart a.chart-style {
-  display: none; /* never displayed; we just use it to store the following colors: */
-  background-color: rgba(3, 169, 244, .4);
-  border-color: #03a9f4;
-  width: 1px; /* controls the chart border width (must be specified in px) */
 }
 
 /* Market Rates */
 #marketStats  {
   margin-top: 20px;
+}
+#marketStats .infoBox  {
+  margin-bottom: 15px;
 }
 #marketUpdate {
     display: none;
@@ -640,8 +597,8 @@ table th.sort:hover{
 #miningProfitCalc .input-group-addon{
   padding: 6px;
 }
-#miningProfitCalc .input-group-addon, 
-#miningProfitCalc .input-group-btn .btn, 
+#miningProfitCalc .input-group-addon,
+#miningProfitCalc .input-group-btn .btn,
 #miningProfitCalc .input-group .form-control{
   height:45px;
 }
@@ -682,7 +639,7 @@ table th.sort:hover{
   #calcHashResultsHolder{
     min-width: 225px;
     max-width: 225px;
-  }    
+  }
 }
 
 /* Mining Ports */
@@ -693,7 +650,7 @@ table th.sort:hover{
 #miningPorts table .col1,
 #miningPorts table .col2 {
   text-align: center;
-}  
+}
 @media (min-width: 768px) {
   #miningPorts table th {
     white-space: nowrap;
@@ -704,7 +661,7 @@ table th.sort:hover{
   #miningPorts table .col2 {
     width:160px;
     text-align: center;
-  }  
+  }
 }
 
 /* Mining Apps */
@@ -715,7 +672,7 @@ table th.sort:hover{
   padding-top: 10px;
 }
 #miningApps_rows > tr > td {
-  border-top: none;  
+  border-top: none;
 }
 #miningApps_rows .appInfo td {
   padding: 10px;
@@ -741,7 +698,7 @@ table th.sort:hover{
 }
 
 /* Worker Statistics */
-#yourStatsInput {
+#yourStatsInput, #yourStatsInputMerged {
   z-index: inherit;
   font-family: 'Inconsolata', monospace;
 }
@@ -751,13 +708,19 @@ table th.sort:hover{
 #yourAddressDisplay > span  {
   font-family: 'Inconsolata', monospace;
 }
-#lookUp > span:nth-child(2) {
+#lookUp > span:nth-child(2), #lookUpMerged > span:nth-child(2) {
   display: none;
 }
 .yourStats,
-.yourWorkers {
+.yourWorkers,
+.yourStatsMerged,
+.yourWorkersMerged {
   display: none;
 }
+.tab-pane #workerStats, .tab-pane #workerStatsMerged {
+        padding-top: 1em;
+}
+
 #yourAddressDisplay {
   display: inline-block;
   max-width: 100%;
@@ -792,16 +755,13 @@ table th.sort:hover{
   #workersReport table .col1 {
     width:80px;
   }
-  #workersReport table .col3,
-  #workersReport table .col4,
-  #workersReport table .col5,
-  #workersReport table .col6 {
-    width:120px;
-  }  
-  #workersReport table .col7 {
+  #workersReport table .col3 {
+    width:150px;
+  }
+  #workersReport table .col4 {
     width: 210px;
   }
-  #workersReport table .col8 {
+  #workersReport table .col5 {
     width: 210px;
   }
 }
@@ -820,112 +780,112 @@ table th.sort:hover{
 @media (min-width: 768px) {
   #workerPayments table  {
     table-layout:fixed;
-  }  
+  }
   #workerPayments table th {
     white-space: nowrap;
   }
   #workerPayments table .col1 {
     width:190px;
-  }  
+  }
   #workerPayments table .col2 {
     overflow: hidden;
     text-overflow: ellipsis;
-  }  
+  }
   #workerPayments table .col3 {
     width:130px;
-  }  
+  }
   #workerPayments table .col4 {
     width: 70px;
   }
 }
 
 /* Pool Blocks */
-#blocksStats  {
+.blocksStats  {
   margin-top: 20px;
 }
-#blocksStats .infoBox  {
+.blocksStats .infoBox  {
   margin-bottom: 15px;
 }
-#blocksStats .luckGood {
+.blocksStats .luckGood {
   color: #5eff5e;
 }
-#blocksStats .luckBad {
+.blocksStats .luckBad {
   color: red;
 }
-#blocksStats .luckMid {
+.blocksStats .luckMid {
   color: #FFF500;
 }
-#blocksReport tr > td {
+.blocksReport tr > td {
   vertical-align: middle;
   font-family: 'Inconsolata', monospace;
   font-size: 0.95em;
 }
-#blocksReport table .col2,
-#blocksReport table .col3,
-#blocksReport table .col4,
-#blocksReport table .col6,
-#blocksReport table .col7 {
+.blocksReport table .col2,
+.blocksReport table .col3,
+.blocksReport table .col4,
+.blocksReport table .col6,
+.blocksReport table .col7 {
   text-align: center;
-}  
+}
 @media (min-width: 768px) {
-  #blocksReport table  {
+  .blocksReport table  {
     table-layout:fixed;
-  }  
-  #blocksReport table th {
+  }
+  .blocksReport table th {
     white-space: nowrap;
   }
-  #blocksReport table .col1 {
+  .blocksReport table .col1 {
     width:190px;
-  }  
-  #blocksReport table .col2 {
+  }
+  .blocksReport table .col2 {
     width:80px;
-  }  
-  #blocksReport table .col3 {
+  }
+  .blocksReport table .col3 {
     width:90px;
-  }  
-  #blocksReport table .col4 {
+  }
+  .blocksReport table .col4 {
     width:120px;
-  }  
-  #blocksReport table .col5 {
+  }
+  .blocksReport table .col5 {
     overflow: hidden;
     text-overflow: ellipsis;
-  }  
-  #blocksReport table .col6 {
+  }
+  .blocksReport table .col6 {
     width: 55px;
-  }  
-  #blocksReport table .col7 {
+  }
+  .blocksReport table .col7 {
     width: 80px;
-  }  
+  }
 }
-#blocksReport .pending td{
+.blocksReport .pending td{
   background-color:rgba(255, 255, 255, .3);
 }
-#blocksReport .unlocked td{
+.blocksReport .unlocked td{
   background-color:rgba(0, 255, 0, .1);
 }
-#blocksReport .orphaned td{
+.blocksReport .orphaned td{
   background-color:rgba(255, 0, 0, .1);
 }
-#blocksReport .luckGood,
-#blocksReport .unlocked .col7 {
+.blocksReport .luckGood,
+.blocksReport .unlocked .col7 {
   color: #17a600;
 }
-#blocksReport .luckBad,
-#blocksReport .orphaned .col7 {
+.blocksReport .luckBad,
+.blocksReport .orphaned .col7 {
   color: #a60000;
 }
-#blocksReport .luckMid {
+.blocksReport .luckMid {
   color: #df9d00;
 }
 
 /* Payments */
-#paymentsStats  {
+.paymentsStats  {
   margin-top: 20px;
 }
-#paymentsStats .infoBox  {
+.paymentsStats .infoBox  {
   margin-bottom: 15px;
 }
-#paymentsReport td {
+#paymentsReport td,#paymentsReportMerged td {
   vertical-align: middle;
   font-family: 'Inconsolata', monospace;
   font-size: 0.95em;
@@ -933,33 +893,63 @@ table th.sort:hover{
 #paymentsReport table .col3,
 #paymentsReport table .col4,
 #paymentsReport table .col5,
-#paymentsReport table .col6 {
+#paymentsReport table .col6,
+#paymentsReportMerged table .col3,
+#paymentsReportMerged table .col4,
+#paymentsReportMerged table .col5,
+#paymentsReportMerged table .col6 {
   text-align: center;
 }
 @media (min-width: 768px) {
   #paymentsReport table  {
     table-layout:fixed;
-  }  
+  }
   #paymentsReport table th {
     white-space: nowrap;
   }
   #paymentsReport table .col1 {
     width:190px;
-  }  
+  }
   #paymentsReport table .col2 {
     overflow: hidden;
     text-overflow: ellipsis;
-  }  
+  }
   #paymentsReport table .col3 {
     width:130px;
-  }  
+  }
   #paymentsReport table .col4 {
     width:110px;
-  }  
+  }
   #paymentsReport table .col5 {
     width: 70px;
   }
   #paymentsReport table .col6 {
+    width: 70px;
+  }
+
+  #paymentsReportMerged table  {
+    table-layout:fixed;
+  }
+  #paymentsReportMerged table th {
+    white-space: nowrap;
+  }
+  #paymentsReportMerged table .col1 {
+    width:190px;
+  }
+  #paymentsReportMerged table .col2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #paymentsReportMerged table .col3 {
+    width:130px;
+  }
+  #paymentsReportMerged table .col4 {
+    width:110px;
+  }
+  #paymentsReportMerged table .col5 {
+    width: 70px;
+  }
+  #paymentsReportMerged table .col6 {
     width: 70px;
   }
 }
@@ -983,7 +973,7 @@ table th.sort:hover{
   }
   #top10miners table .col3 {
     width:150px;
-  }  
+  }
   #top10miners table .col4 {
     width: 210px;
   }
@@ -1013,4 +1003,8 @@ table th.sort:hover{
   #mLangSelector {
     display: block;
   }
+}
+
+.dropdown-menu {
+    background-color: #014e71;
 }
